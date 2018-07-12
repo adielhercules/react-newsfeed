@@ -8,7 +8,6 @@ export default () => (
   <Dashboard>
     <Grid>
       <MainContent>
-        <h2>Cases</h2>
         <div className="divider" />
         <ul>
           <li>Case 1</li>

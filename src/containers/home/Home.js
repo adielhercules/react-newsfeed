@@ -9,7 +9,6 @@ export default () => (
   <Dashboard>
     <Grid>
       <MainContent>
-        <h2>Newsfeed</h2>
         <Newsfeed />
       </MainContent>
       <Sidebar>

@@ -9,7 +9,7 @@ export default () => (
       <header className="navbar">
         <section className="navbar-section">
           <NavLink to="/" className="btn btn-link" exact>
-            <i className="icon icon-message" /> Newsfeed
+            <i className="icon icon-message" /> Home
           </NavLink>
           <NavLink to="/cases" className="btn btn-link">
             Cases

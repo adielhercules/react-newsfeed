@@ -5,7 +5,7 @@ const token = process.env.REACT_APP_TEST_TOKEN;
 export const getNewsfeed = ({
   page = 1,
   per_page = 5,
-  sort = 'inserted_at',
+  sort = '-inserted_at',
 }) => {
   const params = `page[size]=${per_page}&page[number]=${page}&sort=${sort}`
     .replace(/\[/g, '%5B')
