@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import ContentLoader from 'react-content-loader';
 import { Link } from 'react-router-dom';
+import scrollToComponent from 'react-scroll-to-component';
 
 import NewsfeedItem from './NewsfeedItem.styled';
 import Wrapper from './Wrapper.styled';
@@ -101,11 +102,17 @@ class Newsfeed extends Component {
     );
   };
 
+  scrollToOptions = {
+    align: 'top',
+    offset: -150,
+    duration: 200,
+  };
+
   prevPage = () => {
     const { newsfeed = {}, dispatch } = this.props;
     const { page } = newsfeed;
 
-    global.scrollTo(0, 0);
+    scrollToComponent(this.pageTop, this.scrollToOptions);
 
     dispatch(getNewsfeed({ page: page - 1 }));
   };
@@ -114,7 +121,7 @@ class Newsfeed extends Component {
     const { newsfeed = {}, dispatch } = this.props;
     const { page } = newsfeed;
 
-    global.scrollTo(0, 0);
+    scrollToComponent(this.pageTop, this.scrollToOptions);
 
     dispatch(getNewsfeed({ page: page + 1 }));
   };
@@ -124,7 +131,10 @@ class Newsfeed extends Component {
     const { data: newsfeedItems = [], loading, page, total_pages } = newsfeed;
 
     return (
-      <Wrapper>
+      <Wrapper
+        ref={el => {
+          this.pageTop = el;
+        }}>
         <div className="divider" />
 
         {loading && (
