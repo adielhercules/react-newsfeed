@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import ContentLoader from 'react-content-loader';
 import { Link } from 'react-router-dom';
-import scrollToComponent from 'react-scroll-to-component';
+import Waypoint from 'react-waypoint';
 
 import NewsfeedItem from './NewsfeedItem.styled';
 import Wrapper from './Wrapper.styled';
@@ -19,7 +19,8 @@ const ItemLoader = () => (
       width={370}
       speed={2}
       primaryColor="#f3f3f3"
-      secondaryColor="#ecebeb">
+      secondaryColor="#ecebeb"
+    >
       <circle cx="28" cy="28" r="16" />
       <rect x="52" y="18" rx="4" ry="4" width="100" height="13" />
       <rect x="52" y="45" rx="4" ry="4" width="10" height="8" />
@@ -91,11 +92,6 @@ class Newsfeed extends Component {
                 {moment(createdAt).format('MMM Do, YYYY, hh:mm a')}
               </div>
             </div>
-            <div className="tile-action">
-              <button className="btn btn-link">
-                <i className="icon icon-more-vert" />
-              </button>
-            </div>
           </div>
         )}
       </NewsfeedItem>
@@ -112,8 +108,6 @@ class Newsfeed extends Component {
     const { newsfeed = {}, dispatch } = this.props;
     const { page } = newsfeed;
 
-    scrollToComponent(this.pageTop, this.scrollToOptions);
-
     dispatch(getNewsfeed({ page: page - 1 }));
   };
 
@@ -121,50 +115,43 @@ class Newsfeed extends Component {
     const { newsfeed = {}, dispatch } = this.props;
     const { page } = newsfeed;
 
-    scrollToComponent(this.pageTop, this.scrollToOptions);
-
     dispatch(getNewsfeed({ page: page + 1 }));
+  };
+
+  renderWaypoint = () => {
+    const { newsfeed = {} } = this.props;
+    const { loading, page, total_pages } = newsfeed;
+
+    if (!loading && page < total_pages) {
+      return <Waypoint onEnter={this.nextPage} />;
+    }
+
+    return null;
   };
 
   render() {
     const { newsfeed = {} } = this.props;
-    const { data: newsfeedItems = [], loading, page, total_pages } = newsfeed;
+    const { data: newsfeedItems = [], loading } = newsfeed;
 
     return (
       <Wrapper
         ref={el => {
           this.pageTop = el;
-        }}>
+        }}
+      >
         <div className="divider" />
+
+        {newsfeedItems.map(this.renderRow)}
 
         {loading && (
           <div className="loading-placeholder">
             <ItemLoader />
             <ItemLoader />
             <ItemLoader />
-            <ItemLoader />
-            <ItemLoader />
           </div>
         )}
 
-        {!loading && newsfeedItems.map(this.renderRow)}
-
-        <ul className="pagination">
-          {page > 1 && (
-            <li className="page-item page-prev">
-              <button className="btn btn-link" onClick={this.prevPage}>
-                <div className="page-item-subtitle">Newer</div>
-              </button>
-            </li>
-          )}
-          {page < total_pages && (
-            <li className="page-item page-next">
-              <button className="btn btnn-link" onClick={this.nextPage}>
-                <div className="page-item-subtitle">Older</div>
-              </button>
-            </li>
-          )}
-        </ul>
+        {this.renderWaypoint()}
       </Wrapper>
     );
   }

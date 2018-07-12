@@ -9,6 +9,7 @@ const Grid = () => (
         <i className="icon icon-plus" /> Open a case
       </Link>
     </li>
+    <li className="divider" />
     <li className="menu-item">
       <Link to="/cases">
         <i className="icon icon-link" /> Open Cases
