@@ -150,7 +150,7 @@ class Newsfeed extends Component {
             <ItemLoader />
           </div>
         )}
-
+        {loading && <div className="loading loading-lg" />}
         {this.renderWaypoint()}
       </Wrapper>
     );
