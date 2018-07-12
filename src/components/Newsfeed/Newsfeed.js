@@ -105,12 +105,16 @@ class Newsfeed extends Component {
     const { newsfeed = {}, dispatch } = this.props;
     const { page } = newsfeed;
 
+    global.scrollTo(0, 0);
+
     dispatch(getNewsfeed({ page: page - 1 }));
   };
 
   nextPage = () => {
     const { newsfeed = {}, dispatch } = this.props;
     const { page } = newsfeed;
+
+    global.scrollTo(0, 0);
 
     dispatch(getNewsfeed({ page: page + 1 }));
   };
